@@ -32,10 +32,11 @@ async function run() {
         app.get('/animals', async (req, res) => {
             try {
                 const { filter: category } = req.query;
+                const cate = category.toLowerCase();
                 console.log(category);
                 let $match = {};
-                if (category !== 'all') {
-                    $match.category = category;
+                if (cate && cate !== 'all') {
+                    $match.category = cate;
                 }
                 const pipeline = [
                     {
@@ -68,6 +69,13 @@ async function run() {
             } catch (error) {
                 res.status(500).json({ success: false, message: 'failed to fetch categories' });
             }
+        });
+
+        // add category related api
+        app.post('/category', async(req, res) => {
+            const data = req.body;
+            const result = await categoryCollection.insertOne(data);
+            res.send(result);
         });
 
         // Send a ping to confirm a successful connection
