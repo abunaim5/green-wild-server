@@ -26,16 +26,29 @@ async function run() {
         await client.connect();
 
         const animalCollection = client.db('greenWildDB').collection('animals');
+        const categoryCollection = client.db('greenWildDB').collection('categories');
 
         // find all animals related api
         app.get('/animals', async (req, res) => {
             try {
                 const animals = await animalCollection.find().toArray();
+                // console.log(animals);
                 res.status(200).json({ success: true, animals });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'failed to fetch animals' });
             }
-        })
+        });
+
+        // find all categories related api
+        app.get('/categories', async (req, res) => {
+            try {
+                const categories = await categoryCollection.find().toArray();
+                console.log(categories);
+                res.status(200).json({ success: true, categories });
+            } catch (error) {
+                res.status(500).json({ success: false, message: 'failed to fetch categories' });
+            }
+        });
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
