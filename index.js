@@ -31,8 +31,28 @@ async function run() {
         // find all animals related api
         app.get('/animals', async (req, res) => {
             try {
-                const animals = await animalCollection.find().toArray();
-                // console.log(animals);
+                const { filter: category } = req.query;
+                console.log(category);
+                let $match = {};
+                if (category !== 'all') {
+                    $match.category = category;
+                }
+                const pipeline = [
+                    {
+                        $match
+                    },
+                    {
+                        $project: {
+                            _id: 1,
+                            name: 1,
+                            image: 1,
+                            category: 1,
+                        }
+                    }
+                ];
+
+                const animals = await animalCollection.aggregate(pipeline).toArray();
+                console.log(animals);
                 res.status(200).json({ success: true, animals });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'failed to fetch animals' });
@@ -43,7 +63,7 @@ async function run() {
         app.get('/categories', async (req, res) => {
             try {
                 const categories = await categoryCollection.find().toArray();
-                console.log(categories);
+                // console.log(categories);
                 res.status(200).json({ success: true, categories });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'failed to fetch categories' });
