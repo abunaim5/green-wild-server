@@ -7,9 +7,9 @@ This is the backend application for the MERN stack project. It is built using **
 ## Key Features
 
 - **Category Management**: 
-  - Add, update, delete, and fetch categories.
+  - Add, Get, and fetch categories.
 - **Animal Management**: 
-  - Add, update, delete, and fetch animal details with category linkage.
+  - Add, Get, and fetch animal details with category linkage.
 - **Sorting and Filtering**: 
   - Backend support for filtering animals by category and sorting them alphabetically.
 - **Database Integration**: 
@@ -28,7 +28,6 @@ This is the backend application for the MERN stack project. It is built using **
 - **Database**: MongoDB
 - **Language**: JavaScript
 - **Libraries/Tools**:
-  - Mongoose: For MongoDB object modeling.
   - dotenv: For environment variable management.
   - Cors: To handle cross-origin requests.
 
