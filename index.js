@@ -32,11 +32,12 @@ async function run() {
         app.get('/animals', async (req, res) => {
             try {
                 const { filter: category } = req.query;
-                const cate = category.toLowerCase();
-                console.log(category);
                 let $match = {};
-                if (cate && cate !== 'all') {
-                    $match.category = cate;
+                if (category && category !== 'All') {
+                    $match.category = {
+                        $regex: `^${category}$`,
+                        $options: 'i',
+                    };
                 }
                 const pipeline = [
                     {
