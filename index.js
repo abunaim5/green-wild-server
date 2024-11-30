@@ -64,7 +64,6 @@ async function run() {
         app.get('/categories', async (req, res) => {
             try {
                 const categories = await categoryCollection.find().toArray();
-                // console.log(categories);
                 res.status(200).json({ success: true, categories });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'failed to fetch categories' });
@@ -72,10 +71,14 @@ async function run() {
         });
 
         // add category related api
-        app.post('/category', async(req, res) => {
-            const data = req.body;
-            const result = await categoryCollection.insertOne(data);
-            res.send(result);
+        app.post('/category', async (req, res) => {
+            try {
+                const data = req.body;
+                const result = await categoryCollection.insertOne(data);
+                res.status(200).json({ success: true, result });
+            } catch (error) {
+                res.status(500).json({ success: false, message: 'failed to add category' });
+            }
         });
 
         // Send a ping to confirm a successful connection
