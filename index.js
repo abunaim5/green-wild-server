@@ -31,7 +31,7 @@ async function run() {
         // find all animals related api
         app.get('/animals', async (req, res) => {
             try {
-                const { filter: category } = req.query;
+                const { filter: category, sort } = req.query;
                 let $match = {};
                 if (category && category !== 'All') {
                     $match.category = {
@@ -39,6 +39,9 @@ async function run() {
                         $options: 'i',
                     };
                 }
+
+                const sortBy = sort === 'desc' ? -1 : 1;
+
                 const pipeline = [
                     {
                         $match
@@ -49,6 +52,11 @@ async function run() {
                             name: 1,
                             image: 1,
                             category: 1,
+                        }
+                    },
+                    {
+                        $sort: {
+                            name: sortBy
                         }
                     }
                 ];
