@@ -73,11 +73,22 @@ async function run() {
         // add category related api
         app.post('/category', async (req, res) => {
             try {
-                const data = req.body;
-                const result = await categoryCollection.insertOne(data);
+                const categoryData = req.body;
+                const result = await categoryCollection.insertOne(categoryData);
                 res.status(200).json({ success: true, result });
             } catch (error) {
                 res.status(500).json({ success: false, message: 'failed to add category' });
+            }
+        });
+
+        // add animal related api
+        app.post('/animal', async (req, res) => {
+            try {
+                const animalData = req.body;
+                const result = await animalCollection.insertOne(animalData);
+                res.status(200).json({ success: true, result });
+            } catch (error) {
+                res.status(500).json({ success: false, message: 'failed to add animal' });
             }
         });
 
